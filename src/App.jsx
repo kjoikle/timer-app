@@ -1,10 +1,24 @@
 import React, { useState } from "react";
 import Timer from "./components/Timer";
+import AddTimer from "./components/AddTimer";
 
 function App() {
+  const [timerChain, setTimerChain] = useState([]); // array of all timers: {id: number, duration: number}
+
   return (
     <div className="App">
-      <Timer duration={60000} />
+      {timerChain.map((timer) => {
+        return (
+          <Timer
+            key={timer.id}
+            id={timer.id}
+            duration={timer.duration}
+            timerChain={timerChain}
+            setTimerChain={setTimerChain}
+          />
+        );
+      })}
+      <AddTimer timerChain={timerChain} setTimerChain={setTimerChain} />
     </div>
   );
 }

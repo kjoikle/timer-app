@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // duration in ms
 
-function Timer({ duration }) {
+function Timer({ id, duration, timerChain, setTimerChain }) {
   const [timerDuration, setTimerDuration] = useState(duration);
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -21,6 +21,11 @@ function Timer({ duration }) {
     }
     return () => clearInterval(interval);
   }, [isRunning, timeLeft]);
+
+  function handleDelete() {
+    const newTimerChain = timerChain.filter((timer) => timer.id != id);
+    setTimerChain(newTimerChain);
+  }
 
   function toggleRunning() {
     setIsRunning(!isRunning);
@@ -76,17 +81,24 @@ function Timer({ duration }) {
   }
 
   return (
-    <>
-      <div className="timer">
-        <h2>{getFormattedTime()}</h2>
-      </div>
-      <div className="timerControlsWrapper">
-        <button onClick={toggleRunning}>{isRunning ? "Pause" : "Start"}</button>
-        <button onClick={resetTimer}>Reset</button>
-        <button onClick={openPopup}>Edit</button>
-      </div>
-
-      {showPopup && (
+    <div className="timerWrapper">
+      {!showPopup ? (
+        <>
+          <button className="deleteBtn" onClick={handleDelete}>
+            X
+          </button>
+          <div className="timer">
+            <h2>{getFormattedTime()}</h2>
+          </div>
+          <div className="timerControlsWrapper">
+            <button onClick={toggleRunning}>
+              {isRunning ? "Pause" : "Start"}
+            </button>
+            <button onClick={resetTimer}>Reset</button>
+            <button onClick={openPopup}>Edit</button>
+          </div>
+        </>
+      ) : (
         <div className="editPopup">
           <h2>Edit Timer Duration:</h2>
           <input
@@ -98,7 +110,7 @@ function Timer({ duration }) {
           <button onClick={cancelEdit}>Cancel</button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
