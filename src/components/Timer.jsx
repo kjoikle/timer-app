@@ -3,20 +3,24 @@ import React, { useEffect, useState } from "react";
 // duration in ms
 
 function Timer({ duration }) {
-  const [time, setTime] = useState(duration);
+  const [timerDuration, setTimerDuration] = useState(duration);
+  const [timeLeft, setTimeLeft] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [editDuration, setEditDuration] = useState(duration);
 
   useEffect(() => {
     let interval;
-    if (isRunning && time > 0) {
+    if (isRunning && timeLeft > 0) {
       interval = setInterval(() => {
-        setTime(time - 1000);
+        setTimeLeft(timeLeft - 1000);
       }, 1000);
-    } else if (time == 0) {
+    } else if (timeLeft == 0) {
+      setIsRunning(false);
       alert("done!");
     }
     return () => clearInterval(interval);
-  }, [isRunning, time]);
+  }, [isRunning, timeLeft]);
 
   function toggleRunning() {
     setIsRunning(!isRunning);
@@ -24,7 +28,31 @@ function Timer({ duration }) {
 
   function resetTimer() {
     setIsRunning(false);
-    setTime(duration);
+    setTimeLeft(timerDuration);
+  }
+
+  function openPopup() {
+    setShowPopup(true);
+    setIsRunning(false);
+  }
+
+  function closePopup() {
+    setShowPopup(false);
+  }
+
+  function handleDurationChange(e) {
+    setEditDuration(e.target.value);
+  }
+
+  function submiteditDuration() {
+    setTimeLeft(editDuration);
+    setTimerDuration(editDuration);
+    closePopup();
+  }
+
+  function cancelEdit() {
+    setEditDuration(timerDuration);
+    closePopup();
   }
 
   function addLeadingZero(n) {
@@ -32,10 +60,9 @@ function Timer({ duration }) {
   }
 
   function getFormattedTime() {
-    let total_seconds = parseInt(Math.floor(time / 1000));
+    let total_seconds = parseInt(Math.floor(timeLeft / 1000));
     let total_minutes = parseInt(Math.floor(total_seconds / 60));
     let total_hours = parseInt(Math.floor(total_minutes / 60));
-    let days = parseInt(Math.floor(total_hours / 24));
 
     let seconds = parseInt(total_seconds % 60);
     let minutes = parseInt(total_minutes % 60);
@@ -43,8 +70,9 @@ function Timer({ duration }) {
 
     seconds = addLeadingZero(seconds);
     minutes = addLeadingZero(minutes);
+    hours = addLeadingZero(hours);
 
-    return `${days}: ${hours}: ${minutes}: ${seconds}`;
+    return `${hours}: ${minutes}: ${seconds}`;
   }
 
   return (
@@ -55,7 +83,21 @@ function Timer({ duration }) {
       <div className="timerControlsWrapper">
         <button onClick={toggleRunning}>{isRunning ? "Pause" : "Start"}</button>
         <button onClick={resetTimer}>Reset</button>
+        <button onClick={openPopup}>Edit</button>
       </div>
+
+      {showPopup && (
+        <div className="editPopup">
+          <h2>Edit Timer Duration:</h2>
+          <input
+            type="number"
+            value={editDuration}
+            onChange={handleDurationChange}
+          />
+          <button onClick={submiteditDuration}>Submit</button>
+          <button onClick={cancelEdit}>Cancel</button>
+        </div>
+      )}
     </>
   );
 }
