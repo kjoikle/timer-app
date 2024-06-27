@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Timer from "./components/Timer";
 
 function App() {
   return (
     <div className="App">
-      <Timer duration={4000} />
+      <Timer duration={60000} />
     </div>
   );
 }

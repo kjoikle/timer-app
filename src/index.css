@@ -1,6 +1,18 @@
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.timerControlsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.timerControlsWrapper button {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }

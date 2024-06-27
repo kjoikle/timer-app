@@ -2,19 +2,34 @@ import React, { useEffect, useState } from "react";
 
 // duration in ms
 
-// add leading zeros
 function Timer({ duration }) {
   const [time, setTime] = useState(duration);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    if (time == 0) {
-      alert("done!");
-    } else {
-      setTimeout(() => {
+    let interval;
+    if (isRunning && time > 0) {
+      interval = setInterval(() => {
         setTime(time - 1000);
       }, 1000);
+    } else if (time == 0) {
+      alert("done!");
     }
-  }, [time]);
+    return () => clearInterval(interval);
+  }, [isRunning, time]);
+
+  function toggleRunning() {
+    setIsRunning(!isRunning);
+  }
+
+  function resetTimer() {
+    setIsRunning(false);
+    setTime(duration);
+  }
+
+  function addLeadingZero(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
 
   function getFormattedTime() {
     let total_seconds = parseInt(Math.floor(time / 1000));
@@ -26,13 +41,22 @@ function Timer({ duration }) {
     let minutes = parseInt(total_minutes % 60);
     let hours = parseInt(total_hours % 24);
 
+    seconds = addLeadingZero(seconds);
+    minutes = addLeadingZero(minutes);
+
     return `${days}: ${hours}: ${minutes}: ${seconds}`;
   }
 
   return (
-    <div className="timer">
-      <h2>{getFormattedTime()}</h2>
-    </div>
+    <>
+      <div className="timer">
+        <h2>{getFormattedTime()}</h2>
+      </div>
+      <div className="timerControlsWrapper">
+        <button onClick={toggleRunning}>{isRunning ? "Pause" : "Start"}</button>
+        <button onClick={resetTimer}>Reset</button>
+      </div>
+    </>
   );
 }
 
