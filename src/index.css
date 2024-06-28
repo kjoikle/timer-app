@@ -9,6 +9,10 @@
   gap: 3vw;
 }
 
+audio {
+  display: none;
+}
+
 .timerWrapper {
   display: flex;
   flex-direction: column;

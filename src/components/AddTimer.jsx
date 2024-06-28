@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import TimeInput from "./TimeInput";
+import { IoIosAddCircle } from "react-icons/io";
 
 function AddTimer({ timerChain, setTimerChain }) {
   function handleClick(timeInMS) {
@@ -15,7 +16,10 @@ function AddTimer({ timerChain, setTimerChain }) {
 
   return (
     <div className="timerWrapper" style={{ border: "dotted" }}>
-      <TimeInput submitBtnText="Add" handleSubmit={handleClick} />
+      <TimeInput
+        submitBtnText={<IoIosAddCircle />}
+        handleSubmit={handleClick}
+      />
     </div>
   );
 }
