@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Timer from "./components/Timer";
 import AddTimer from "./components/AddTimer";
+import TimeInput from "./components/TimeInput";
 
 function App() {
   const [timerChain, setTimerChain] = useState([]); // array of all timers: {id: number, duration: number}

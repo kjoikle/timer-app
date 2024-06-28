@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  width: fit-content;
+  width: 9rem;
   height: 7rem;
 
   border: 0.25rem solid black;
@@ -38,4 +38,29 @@
   padding: 0.5rem;
   border-radius: 0.5rem;
   width: 3rem;
+}
+
+.timeInputBox {
+  width: 2rem;
+}
+
+.inputBoxWrapper {
+  align-self: center;
+  justify-self: center;
+}
+
+.timeInputBtn {
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: 3rem;
+  justify-content: center;
+}
+
+.timeInputBtnWrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  justify-self: flex-end;
 }

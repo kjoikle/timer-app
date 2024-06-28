@@ -1,30 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import TimeInput from "./TimeInput";
 
 function AddTimer({ timerChain, setTimerChain }) {
-  const [duration, setDuration] = useState(0);
-
-  function handleClick() {
-    if (duration > 0) {
+  function handleClick(timeInMS) {
+    if (timeInMS > 0) {
       const id = uuidv4();
-      const newTimer = { id: id, duration: duration };
+      const newTimer = { id: id, duration: timeInMS };
       setTimerChain([...timerChain, newTimer]);
     } else {
       alert("enter a time!");
     }
-    setDuration(0);
-  }
-
-  function handleChange(e) {
-    setDuration(e.target.value);
   }
 
   return (
     <div className="timerWrapper" style={{ border: "dotted" }}>
-      <input type="number" value={duration} onChange={handleChange} />
-      <button className="addTimerBtn" onClick={handleClick}>
-        Add Timer
-      </button>
+      <TimeInput submitBtnText="Add" handleSubmit={handleClick} />
     </div>
   );
 }

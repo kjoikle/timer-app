@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import TimeInput from "./TimeInput";
 
 // duration in ms
 
@@ -45,13 +46,13 @@ function Timer({ id, duration, timerChain, setTimerChain }) {
     setShowPopup(false);
   }
 
-  function handleDurationChange(e) {
-    setEditDuration(e.target.value);
+  function handleDurationChange(timeValue) {
+    setEditDuration(timeValue);
   }
 
-  function submiteditDuration() {
-    setTimeLeft(editDuration);
-    setTimerDuration(editDuration);
+  function submitEditDuration(timeInMS) {
+    setTimeLeft(timeInMS);
+    setTimerDuration(timeInMS);
     closePopup();
   }
 
@@ -64,7 +65,23 @@ function Timer({ id, duration, timerChain, setTimerChain }) {
     return (n < 10 ? "0" : "") + n;
   }
 
-  function getFormattedTime() {
+  // function getFormattedTime() {
+  //   let total_seconds = parseInt(Math.floor(timeLeft / 1000));
+  //   let total_minutes = parseInt(Math.floor(total_seconds / 60));
+  //   let total_hours = parseInt(Math.floor(total_minutes / 60));
+
+  //   let seconds = parseInt(total_seconds % 60);
+  //   let minutes = parseInt(total_minutes % 60);
+  //   let hours = parseInt(total_hours % 24);
+
+  //   seconds = addLeadingZero(seconds);
+  //   minutes = addLeadingZero(minutes);
+  //   hours = addLeadingZero(hours);
+
+  //   return `${hours}: ${minutes}: ${seconds}`;
+  // }
+
+  function getTimeInfo() {
     let total_seconds = parseInt(Math.floor(timeLeft / 1000));
     let total_minutes = parseInt(Math.floor(total_seconds / 60));
     let total_hours = parseInt(Math.floor(total_minutes / 60));
@@ -77,7 +94,12 @@ function Timer({ id, duration, timerChain, setTimerChain }) {
     minutes = addLeadingZero(minutes);
     hours = addLeadingZero(hours);
 
-    return `${hours}: ${minutes}: ${seconds}`;
+    return {
+      formattedTime: `${hours}: ${minutes}: ${seconds}`,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+    };
   }
 
   return (
@@ -88,7 +110,7 @@ function Timer({ id, duration, timerChain, setTimerChain }) {
             X
           </button>
           <div className="timer">
-            <h2>{getFormattedTime()}</h2>
+            <h2>{getTimeInfo().formattedTime}</h2>
           </div>
           <div className="timerControlsWrapper">
             <button onClick={toggleRunning}>
@@ -100,14 +122,17 @@ function Timer({ id, duration, timerChain, setTimerChain }) {
         </>
       ) : (
         <div className="editPopup">
-          <h2>Edit Timer Duration:</h2>
-          <input
-            type="number"
-            value={editDuration}
-            onChange={handleDurationChange}
+          <h2>Edit Timer:</h2>
+          <TimeInput
+            submitBtnText={"Submit"}
+            cancelBtnText={"Cancel"}
+            updateVal={handleDurationChange}
+            handleSubmit={submitEditDuration}
+            handleCancel={cancelEdit}
+            initialHours={getTimeInfo().hours}
+            initialMinutes={getTimeInfo().minutes}
+            initialSeconds={getTimeInfo().seconds}
           />
-          <button onClick={submiteditDuration}>Submit</button>
-          <button onClick={cancelEdit}>Cancel</button>
         </div>
       )}
     </div>
