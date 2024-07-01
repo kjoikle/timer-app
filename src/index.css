@@ -26,6 +26,14 @@ audio {
   border-radius: 0.5rem;
 }
 
+.isActive {
+  border: 0.25rem solid blue;
+}
+
+.isEnded {
+  border: 0.25rem solid red;
+}
+
 .timerWrapper .deleteBtn {
   align-self: flex-end;
   background-color: rgb(239, 81, 81);
@@ -67,4 +75,15 @@ audio {
   width: 100%;
   justify-content: space-around;
   justify-self: flex-end;
+}
+
+.chainControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chainControls button {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
