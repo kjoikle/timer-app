@@ -13,9 +13,6 @@ import beep1sec from "../assets/beep1sec.mp3";
 import DataContext from "../context/DataContext";
 
 // duration in ms
-
-// !! lots of weird bugs in here because of the way I changed functionality into isActive and isPaused
-
 function Timer({ id, duration, callback, isActive, resetting }, ref) {
   const { timerQueue, setTimerQueue } = useContext(DataContext);
   const [timerDuration, setTimerDuration] = useState(duration);
@@ -24,12 +21,15 @@ function Timer({ id, duration, callback, isActive, resetting }, ref) {
   const [showPopup, setShowPopup] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
 
-  // something is going wrong here -- i need to look into how refs and stuff works...
-  useImperativeHandle(ref, () => ({
-    reset: () => {
-      resetTimer();
-    },
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      reset: () => {
+        resetTimer();
+      },
+    }),
+    []
+  );
 
   useEffect(() => {
     if (resetting) {
