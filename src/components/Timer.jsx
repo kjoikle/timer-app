@@ -13,6 +13,7 @@ import beep1sec from "../assets/beep1sec.mp3";
 import DataContext from "../context/DataContext";
 
 // duration in ms
+
 function Timer({ id, duration, callback, isActive, resetting }, ref) {
   const { timerQueue, setTimerQueue } = useContext(DataContext);
   const [timerDuration, setTimerDuration] = useState(duration);

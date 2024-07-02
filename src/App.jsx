@@ -1,7 +1,7 @@
 import AddTimer from "./components/AddTimer";
 import { DataProvider } from "./context/DataContext";
 import TimerChain from "./components/TimerChain";
-import Modal from "./components/Modal/Modal";
+import Modal from "./components/Modal/PresetModal";
 
 function App() {
   return (
